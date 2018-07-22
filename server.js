@@ -2,7 +2,7 @@ const express = require('express')
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 
-var port = process.env.PORT || 8080;
+var port = 8080;
 
 var app = express();
 
@@ -24,16 +24,19 @@ app.set("view engine", "handlebars");
 var routes = require("./controllers/burgers_controller.js");
 
 var orm = require('./config/orm.js')
+var burger = require('./controllers/burgers_controller.js')
 
 //app.use("/", routes);
 app.get('/', function*(){
-  orm.selectAll(function(data){
-    var hbsObject = {
-      burgers: data
-    }
-    console.log(hbsObject)
-    res.render('index', hbsObject)
-  })
+
+    burger.selectAll(function(data){
+      var hbsObject = {
+        burgers: data
+      }
+      console.log(hbsObject)
+      res.render('index', hbsObject)
+    })
+
 })
 
 app.listen(port, function(){
